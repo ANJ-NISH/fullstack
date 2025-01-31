@@ -10,12 +10,18 @@ const resolutionRoutes=require('./routes/resolutionRoutes');
 const app=express();
 
 const corsOptions = {
-  origin: (callback) => {
-    callback(null, '*');
+  origin: (origin, callback) => {
+    // Allow requests from specific frontend or dynamically allow the request's origin
+    if (!origin || origin === 'https://resolutefront-4e7o.vercel.app') {
+      callback(null, origin); // Accept the request's origin
+    } else {
+      callback(new Error('Not allowed by CORS')); // Reject other origins (if needed)
+    }
   },
-  credentials: true, 
+  credentials: true, // Allow cookies or other credentials
 };
 
+// Apply CORS middleware
 app.use(cors(corsOptions));
 
 app.use(cookieParser());
