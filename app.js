@@ -10,8 +10,8 @@ const resolutionRoutes=require('./routes/resolutionRoutes');
 const app=express();
 
 const corsOptions = {
-  origin: (origin, callback) => {
-    callback(null, origin || '*');
+  origin: (callback) => {
+    callback(null, '*');
   },
   credentials: true, 
 };
