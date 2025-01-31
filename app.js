@@ -34,7 +34,7 @@ app.use((req, res, next) => {
 
 
 
-app.use(cors({origin: 'https://resolutefront-4e7o.vercel.app', credentials: true,}));
+// app.use(cors({origin: 'https://resolutefront-4e7o.vercel.app', credentials: true,}));
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
