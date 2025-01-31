@@ -24,4 +24,4 @@ app.use('/user', userRoutes);
 app.use('/resolution', resolutionRoutes);
 
 
-app.listen(process.env.PORT, ()=> {console.log("Server is running on 3000 port")});
+module.exports = app;
