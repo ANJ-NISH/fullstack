@@ -9,6 +9,11 @@ const resolutionRoutes=require('./routes/resolutionRoutes');
 
 const app=express();
 
+app.options('*', cors({
+  origin: 'https://resolutefront-4e7o.vercel.app',
+  credentials: true,
+}));
+
 app.use(cors({origin: 'https://resolutefront-4e7o.vercel.app', credentials: true,}));
 app.use(cookieParser());
 app.use(express.json());
