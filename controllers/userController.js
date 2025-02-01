@@ -57,7 +57,8 @@ const createUserFunc=async (req, res)=>
 
 const LoginUser=async (req, res)=>
 {
-  const {email, password}=req.body;
+  const email=req.params.email;
+  const password=req.params.password;
 
   const user=await User.findOne({email});
 
@@ -67,15 +68,18 @@ const LoginUser=async (req, res)=>
   }
 
   bcrypt.compare(password,user.password,function(err,result){
+    
     if(result)
     {
        let token=jwt.sign({id: user._id}, process.env.SECRET_KEY);
-       res.cookie("token",token,{
-        httpOnly: true,
-        secure: true,
-        maxAge: 100 * 365 * 24 * 60 * 60 * 1000, 
-        path: '/',
-       });
+      
+       res.cookie("token", token, {
+        httpOnly: true,  // Prevents JavaScript access (security best practice)
+        secure: process.env.NODE_ENV === "production", // Only secure in production
+        sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+        maxAge: 100 * 365 * 24 * 60 * 60 * 1000, // 100 years in milliseconds
+      });
+
        return res.status(201).json({message: "Login Successful"});
     }
     else

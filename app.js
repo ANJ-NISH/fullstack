@@ -1,5 +1,6 @@
 const express= require('express');
 const mongoose=require('mongoose');
+const path = require('path');
 const cors=require('cors')
 require('dotenv').config();
 const cookieParser=require('cookie-parser');
@@ -9,24 +10,25 @@ const resolutionRoutes=require('./routes/resolutionRoutes');
 
 const app=express();
 
-const corsOptions = {
-  origin: (origin, callback) => {
-    // Allow requests from specific frontend or dynamically allow the request's origin
-    if (!origin || origin === 'https://resolutefront.netlify.app/') {
-      callback(null, origin); // Accept the request's origin
-    } else {
-      callback(new Error('Not allowed by CORS')); // Reject other origins (if needed)
-    }
-  },
-  credentials: true, // Allow cookies or other credentials
-};
+// app.options("*", cors());
 
-// Apply CORS middleware
-app.use(cors(corsOptions));
+
+
+// app.use(
+//   cors({
+//     origin: "http://localhost:5000", // Ensure this matches your frontend URL
+//     credentials: true,
+//     methods: ['GET', 'POST', 'PUT', 'DELETE'],
+//     allowedHeaders: ['Content-Type', 'Authorization'], // Allow credentials (cookies, sessions, etc.)
+//   })
+// );
+
+
 
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+app.use(express.static(path.join(__dirname, 'dist')));
 
 
 mongoose.connect(process.env.MONGO_URI
@@ -36,6 +38,13 @@ mongoose.connect(process.env.MONGO_URI
 
 app.use('/user', userRoutes);
 app.use('/resolution', resolutionRoutes);
+// app.use((req, res, next) => {
+//   res.header("Access-Control-Allow-Origin", "http://localhost:5173");
+//   res.header("Access-Control-Allow-Credentials", "true");
+//   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+//   res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+//   next();
+// });
 
 
-module.exports = app;
+app.listen(5000, ()=> {console.log("Server is running on port 5000")})

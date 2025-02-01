@@ -8,7 +8,7 @@ const {createUserFunc, LoginUser, LogoutFunc, getUsername}= require('../controll
 
 router.post('/createUser', createUserFunc);
 
-router.post('/loginUser', LoginUser);
+router.post('/loginUser/:email/:password', LoginUser);
 
 router.post('/logout',LogoutFunc);
 
