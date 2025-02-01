@@ -12,7 +12,7 @@ const app=express();
 const corsOptions = {
   origin: (origin, callback) => {
     // Allow requests from specific frontend or dynamically allow the request's origin
-    if (!origin || origin === 'https://resolutefront-4e7o.vercel.app') {
+    if (!origin || origin === 'https://resolutefront.netlify.app/') {
       callback(null, origin); // Accept the request's origin
     } else {
       callback(new Error('Not allowed by CORS')); // Reject other origins (if needed)
